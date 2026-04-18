@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MyPlaces.Shared.Places;
 
 public record CreatePlaceRequest(
-    string Name,
-    string Address,
-    string City,
+    [Required] string Name,
+    [Required] string Address,
+    [Required] string City,
     string? Country,
     double? Latitude,
     double? Longitude,
@@ -11,9 +13,9 @@ public record CreatePlaceRequest(
 );
 
 public record UpdatePlaceRequest(
-    string Name,
-    string Address,
-    string City,
+    [Required] string Name,
+    [Required] string Address,
+    [Required] string City,
     string? Country,
     double? Latitude,
     double? Longitude,
