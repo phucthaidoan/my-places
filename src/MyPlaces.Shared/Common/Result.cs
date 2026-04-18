@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace MyPlaces.Shared.Common;
 
 public record Result<T>
@@ -6,7 +8,8 @@ public record Result<T>
     public T? Value { get; init; }
     public string? Error { get; init; }
 
-    private Result(bool isSuccess, T? value, string? error)
+    [JsonConstructor]
+    public Result(bool isSuccess, T? value, string? error)
     {
         IsSuccess = isSuccess;
         Value = value;
