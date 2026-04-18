@@ -1,36 +1,43 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MyPlaces.Api.Common;
+using Testcontainers.PostgreSql;
 
 namespace MyPlaces.Api.Tests;
 
-public class TestWebAppFactory : WebApplicationFactory<Program>
+public class TestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    // Fixed DB name per factory instance so all requests within a test class share the same store
-    private readonly string _dbName = "TestDb_" + Guid.NewGuid();
+    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder()
+        .WithImage("postgres:18-alpine")
+        .WithDatabase("myplaces_test")
+        .WithUsername("myplaces")
+        .WithPassword("myplaces_test")
+        .Build();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureServices(services =>
-        {
-            // Remove all EF/DB provider-related descriptors to avoid dual-provider conflict
-            var descriptorsToRemove = services
-                .Where(d =>
-                    d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
-                    d.ServiceType == typeof(DbContextOptions) ||
-                    d.ServiceType == typeof(IDbContextOptionsConfiguration<AppDbContext>))
-                .ToList();
-
-            foreach (var d in descriptorsToRemove)
-                services.Remove(d);
-
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase(_dbName));
-        });
+        // Use the same key as Program.cs reads in AddDbContext
+        builder.UseSetting(
+            "ConnectionStrings:DefaultConnection",
+            _postgres.GetConnectionString());
 
         builder.UseEnvironment("Testing");
+    }
+
+    public async Task InitializeAsync()
+    {
+        await _postgres.StartAsync();
+
+        using var scope = Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await db.Database.MigrateAsync();
+    }
+
+    public new async Task DisposeAsync()
+    {
+        await _postgres.DisposeAsync();
+        await base.DisposeAsync();
     }
 }
