@@ -1,0 +1,72 @@
+# MCP config (contains secrets)
+.mcp.json
+
+# Claude local settings
+.claude/settings.local.json
+
+# -----------------------------------------------------------------------
+# .NET
+# -----------------------------------------------------------------------
+## Build output
+bin/
+obj/
+out/
+
+## Visual Studio / Rider
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.idea/
+*.DotSettings.user
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Publish output
+**/publish/
+**/PublishProfiles/
+
+## Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage-report/
+
+## Logs
+*.log
+logs/
+
+# -----------------------------------------------------------------------
+# Docker
+# -----------------------------------------------------------------------
+docker-compose.override.yml
+
+# -----------------------------------------------------------------------
+# Secrets / environment
+# -----------------------------------------------------------------------
+src/MyPlaces.Api/appsettings.Development.json
+*.env
+.env
+.env.*
+!.env.example
+
+# -----------------------------------------------------------------------
+# Git worktrees
+# -----------------------------------------------------------------------
+.worktrees/
+
+# -----------------------------------------------------------------------
+# OS
+# -----------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
