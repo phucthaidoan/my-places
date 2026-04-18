@@ -6,7 +6,7 @@
 
 | # | Plan | Status | Mô tả |
 |---|------|--------|-------|
-| 1 | [2026-04-18-01-solution-setup.md](2026-04-18-01-solution-setup.md) | ✅ Ready | Solution, EF Core entities, Auth (JWT + Google), Result Pattern |
+| 1 | [2026-04-18-01-solution-setup.md](2026-04-18-01-solution-setup.md) | ✅ Done | Solution, EF Core entities, Auth (JWT + Google), Result Pattern |
 | 2 | _(chưa viết)_ | ⏳ Pending | Places API + Blazor Client |
 | 3 | _(chưa viết)_ | ⏳ Pending | Trips API + Blazor Client |
 | 4 | _(chưa viết)_ | ⏳ Pending | Photos (SAS upload flow + client-side resize) |
@@ -72,14 +72,14 @@ Plan 6 (Dashboard + Deploy) ← depends on all above
 
 **Repo setup:**
 - [x] Tạo repo `my-places` (public hoặc private)
-- [ ] Commit spec docs vào `docs/superpowers/`
-- [ ] Push initial commit
+- [x] Commit spec docs vào `docs/superpowers/`
+- [x] Push initial commit
 
 ---
 
 ### 2. Implement Plans
 
-- [ ] **Plan 1** — Solution Setup & Core Infrastructure → dùng `superpowers:subagent-driven-development`
+- [x] **Plan 1** — Solution Setup & Core Infrastructure → dùng `superpowers:subagent-driven-development`
 - [ ] **Plan 2** — Places API + Blazor Client _(viết plan sau khi Plan 1 done)_
 - [ ] **Plan 3** — Trips API + Blazor Client _(viết plan sau khi Plan 2 done)_
 - [ ] **Plan 4** — Photos (SAS upload + client-side resize) _(viết plan sau khi Plan 2 done)_
