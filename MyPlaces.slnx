@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MyPlaces.Api/MyPlaces.Api.csproj" />
+    <Project Path="src/MyPlaces.Client/MyPlaces.Client.csproj" />
+    <Project Path="src/MyPlaces.Shared/MyPlaces.Shared.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MyPlaces.Api.Tests/MyPlaces.Api.Tests.csproj" />
+  </Folder>
+</Solution>
