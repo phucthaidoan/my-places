@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MyPlaces.Api.Common;
 
@@ -9,28 +8,31 @@ namespace MyPlaces.Api.Tests;
 
 public class TestWebAppFactory : WebApplicationFactory<Program>
 {
-    // Fixed DB name per factory instance so all requests within a test class share the same store
-    private readonly string _dbName = "TestDb_" + Guid.NewGuid();
+    private string _dbName = "TestDb_" + Guid.NewGuid();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.UseEnvironment("Testing");
+
         builder.ConfigureServices(services =>
         {
-            // Remove all EF/DB provider-related descriptors to avoid dual-provider conflict
-            var descriptorsToRemove = services
-                .Where(d =>
-                    d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
-                    d.ServiceType == typeof(DbContextOptions) ||
-                    d.ServiceType == typeof(IDbContextOptionsConfiguration<AppDbContext>))
-                .ToList();
+            // Remove existing DbContext
+            var descriptor = services.FirstOrDefault(d =>
+                d.ServiceType == typeof(DbContextOptions<AppDbContext>));
+            if (descriptor != null)
+                services.Remove(descriptor);
 
-            foreach (var d in descriptorsToRemove)
-                services.Remove(d);
-
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase(_dbName));
+            // Use in-memory database with a unique name per factory
+            services.AddDbContext<AppDbContext>(opts =>
+                opts.UseInMemoryDatabase(_dbName));
         });
+    }
 
-        builder.UseEnvironment("Testing");
+    public override async ValueTask DisposeAsync()
+    {
+        using var scope = Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await db.Database.EnsureDeletedAsync();
+        await base.DisposeAsync();
     }
 }
