@@ -78,7 +78,7 @@ Plan 7 (Dashboard + Deploy) ← depends on Plans 1–3, 5–6 (E2E optional but 
 - [x] Commit spec docs vào `docs/superpowers/`
 - [x] Push initial commit
 
-**GitHub — tạo MVP issues (Plan 3–7 + Playwright MVP):** [GitHub MCP + PAT](../github/README.md) (Cursor, tool `issue_write`); fallback [scripts/github/README.md](../../../scripts/github/README.md) (`gh` + milestone `MVP`).
+**GitHub — tạo MVP issues (Plan 3–7 + Playwright MVP):** dùng **GitHub MCP** trong Cursor (server `project-0-my-places-github`, ví dụ tool `issue_write`) cùng PAT đã cấu hình; nếu MCP không dùng được thì tạo/cập nhật issue bằng **`gh`** hoặc giao diện GitHub (milestone `MVP`).
 
 ---
 
