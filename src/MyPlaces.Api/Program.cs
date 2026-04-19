@@ -39,9 +39,14 @@ builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<JwtTokenService>();
 
 // CORS (Blazor WASM)
+var allowedOrigins = builder.Configuration["AllowedOrigins"]?.Split(
+    [';', ','],
+    StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+    ?? ["http://localhost:5178", "https://localhost:7105"];
+
 builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
-        policy.WithOrigins(builder.Configuration["AllowedOrigins"] ?? "http://localhost:5001")
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials()));

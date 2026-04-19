@@ -1,6 +1,9 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject AuthState Auth
+@inject NavigationManager Nav
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">MyPlaces.Client</a>
+        <a class="navbar-brand" href="">My Places</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,14 +18,18 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="trips">
+                <span class="bi bi-map" aria-hidden="true"></span> Trips
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
+            <NavLink class="nav-link" href="login">Login</NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="register">Register</NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <button type="button" class="nav-link btn btn-link text-start p-0 border-0" @onclick="LogoutAsync">Logout</button>
         </div>
     </nav>
 </div>
@@ -35,5 +42,12 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task LogoutAsync()
+    {
+        await Auth.SetTokenAsync(null);
+        Auth.ForgetCachedToken();
+        Nav.NavigateTo("/", forceLoad: true);
     }
 }

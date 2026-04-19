@@ -1,0 +1,19 @@
+---
+description: Sau mỗi milestone plan (superpowers), đồng bộ trạng thái GitHub issues cho repo my-places
+alwaysApply: true
+---
+
+# Đồng bộ GitHub sau milestone plan
+
+Khi **đã hoàn thành** triển khai trong code (và đã cập nhật checklist trong `docs/superpowers/plans/` nếu có), **đừng bỏ qua bước đồng bộ GitHub**:
+
+1. Từ **root repo** chạy: `pwsh ./scripts/github/Sync-Plan3IssuesComplete.ps1`  
+   - Mặc định đóng issue Trips MVP **#11–#14** trên `phucthaidoan/my-places` (lý do `completed` + comment mẫu).  
+   - Dry-run: thêm `-DryRun`.  
+   - Ghi chú lên issue Plan 4 (**#33**) rằng Plan 3 xong: `-AlsoCommentPlan4Issue`.
+
+2. **Xác thực:** `gh auth login` (khuyến nghị) hoặc biến môi trường `GITHUB_TOKEN` (classic PAT, scope `repo`).
+
+3. **Tài liệu:** `scripts/github/README.md` (mục *Đồng bộ sau Plan 3*), `docs/superpowers/github/README.md`.
+
+Nếu sau này có script tương tự cho Plan 4/5…, bổ sung vào `scripts/github/README.md` và cập nhật rule này ngắn gọn.

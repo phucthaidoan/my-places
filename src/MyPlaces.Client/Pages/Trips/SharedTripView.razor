@@ -1,0 +1,69 @@
+@page "/shared/{Token}"
+@using MyPlaces.Client.Serialization
+@inject IHttpClientFactory HttpFactory
+
+<PageTitle>Shared trip</PageTitle>
+
+@if (_loading)
+{
+    <p>Loading…</p>
+}
+else if (!string.IsNullOrEmpty(_error))
+{
+    <p class="text-danger">@_error</p>
+}
+else if (_trip is not null)
+{
+    <h1>@_trip.Name</h1>
+    <p>@_trip.City @(_trip.Country is not null ? $", {_trip.Country}" : "")</p>
+
+    <h2>Places</h2>
+    @if (_trip.Places.Count == 0)
+    {
+        <p>No places.</p>
+    }
+    else
+    {
+        <ul class="list-group">
+            @foreach (var tp in _trip.Places)
+            {
+                <li class="list-group-item">@tp.Place.Name — @tp.Place.City</li>
+            }
+        </ul>
+    }
+}
+
+@code {
+    [Parameter] public string Token { get; set; } = "";
+
+    private bool _loading = true;
+    private string? _error;
+    private TripDetailResponse? _trip;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _loading = true;
+        _error = null;
+        try
+        {
+            var client = HttpFactory.CreateClient("ApiAnonymous");
+            var r = await client.GetFromJsonAsync<Result<TripDetailResponse>>($"api/v1/trips/shared/{Uri.EscapeDataString(Token)}",
+                ClientJson.Options);
+            if (r is not { IsSuccess: true, Value: not null })
+            {
+                _error = "This trip is not available (invalid or private link).";
+                return;
+            }
+
+            _trip = r.Value;
+        }
+        catch
+        {
+            _error = "This trip is not available (invalid or private link).";
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

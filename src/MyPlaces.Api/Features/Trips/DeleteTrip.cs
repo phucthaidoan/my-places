@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MyPlaces.Api.Common;
 
-namespace MyPlaces.Api.Features.Places;
+namespace MyPlaces.Api.Features.Trips;
 
-public static class DeletePlace
+public static class DeleteTrip
 {
     public static async Task<IResult> Handle(
         Guid id,
@@ -11,13 +11,13 @@ public static class DeletePlace
         ICurrentUser currentUser,
         CancellationToken ct)
     {
-        var place = await db.Places
-            .FirstOrDefaultAsync(p => p.Id == id && p.UserId == currentUser.Id, ct);
+        var trip = await db.Trips
+            .FirstOrDefaultAsync(t => t.Id == id && t.UserId == currentUser.Id, ct);
 
-        if (place is null)
+        if (trip is null)
             return Results.NotFound();
 
-        db.Places.Remove(place);
+        db.Trips.Remove(trip);
         await db.SaveChangesAsync(ct);
 
         return Results.NoContent();
