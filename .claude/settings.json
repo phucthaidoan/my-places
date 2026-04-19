@@ -27,17 +27,8 @@
       "mcp__github__*",
       "mcp__microsoft-learn__*",
       "Skill(*)",
-      "Read(//c/Workspaces/Projects/pet/my-places/**)",
-      "Bash(taskkill /F /IM dotnet.exe)",
-      "Bash(taskkill /IM dotnet.exe /F)",
-      "Bash(pwsh -Command \"Stop-Process -Name dotnet -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2\")"
-    ],
-    "additionalDirectories": [
-      "C:\\Workspaces\\Projects\\pet\\my-places\\src\\MyPlaces.Shared",
-      "C:\\Workspaces\\Projects\\pet\\my-places\\src\\MyPlaces.Api\\Common",
-      "C:\\Workspaces\\Projects\\pet\\my-places\\src\\MyPlaces.Api\\Features",
-      "C:\\Workspaces\\Projects\\pet\\my-places\\tests\\MyPlaces.Api.Tests\\Features",
-      "C:\\Workspaces\\Projects\\pet\\my-places\\.worktrees\\feature\\places-api\\tests\\MyPlaces.Api.Tests"
+      "Bash(taskkill *)",
+      "Bash(pwsh *)"
     ]
   }
 }
