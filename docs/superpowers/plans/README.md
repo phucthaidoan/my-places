@@ -7,7 +7,7 @@
 | # | Plan | Status | Mô tả |
 |---|------|--------|-------|
 | 1 | [2026-04-18-01-solution-setup.md](2026-04-18-01-solution-setup.md) | ✅ Done | Solution, EF Core entities, Auth (JWT + Google), Result Pattern |
-| 2 | _(chưa viết)_ | ⏳ Pending | Places API + Blazor Client |
+| 2 | [2026-04-18-02-places-api.md](2026-04-18-02-places-api.md) | ✅ Done | Places API + Blazor Client |
 | 3 | _(chưa viết)_ | ⏳ Pending | Trips API + Blazor Client |
 | 4 | _(chưa viết)_ | ⏳ Pending | Photos (SAS upload flow + client-side resize) |
 | 5 | _(chưa viết)_ | ⏳ Pending | Social (Follow, Search Users, Feed) |
@@ -80,7 +80,7 @@ Plan 6 (Dashboard + Deploy) ← depends on all above
 ### 2. Implement Plans
 
 - [x] **Plan 1** — Solution Setup & Core Infrastructure → dùng `superpowers:subagent-driven-development`
-- [ ] **Plan 2** — Places API + Blazor Client _(viết plan sau khi Plan 1 done)_
+- [x] **Plan 2** — Places API + Blazor Client → PR #32
 - [ ] **Plan 3** — Trips API + Blazor Client _(viết plan sau khi Plan 2 done)_
 - [ ] **Plan 4** — Photos (SAS upload + client-side resize) _(viết plan sau khi Plan 2 done)_
 - [ ] **Plan 5** — Social (Follow, Search, Feed) _(viết plan sau khi Plan 1 done)_

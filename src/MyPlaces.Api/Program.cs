@@ -8,7 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (builder.Environment.IsEnvironment("Testing") && string.IsNullOrEmpty(conn))
+        options.UseInMemoryDatabase("TestDb");
+    else
+        options.UseNpgsql(conn ?? throw new InvalidOperationException("DefaultConnection is required"));
+});
 
 // Identity
 builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>(options =>
