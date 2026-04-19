@@ -7,6 +7,8 @@ alwaysApply: true
 
 Khi **đã hoàn thành** triển khai trong code (và đã cập nhật checklist trong `docs/superpowers/plans/` nếu có), **đừng bỏ qua bước đồng bộ GitHub**:
 
+0. **Ưu tiên GitHub MCP** (Cursor: server `github` / `project-0-my-places-github`) cho: liệt kê PR, trạng thái merge, đọc PR/issue, v.v. Chỉ dùng `gh` hoặc `GITHUB_TOKEN` + REST khi MCP không khả dụng.
+
 1. Từ **root repo** chạy: `pwsh ./scripts/github/Sync-Plan3IssuesComplete.ps1`  
    - Mặc định đóng issue Trips MVP **#11–#14** trên `phucthaidoan/my-places` (lý do `completed` + comment mẫu).  
    - Dry-run: thêm `-DryRun`.  
