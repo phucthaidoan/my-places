@@ -20,6 +20,9 @@ public static class GetNearbyPlaces
         if (lat is null || lng is null)
             return Results.BadRequest(Result<List<PlaceSummaryResponse>>.Failure("lat and lng are required"));
 
+        if (radiusKm <= 0 || radiusKm > 500)
+            return Results.BadRequest(Result<List<PlaceSummaryResponse>>.Failure("radiusKm must be between 0 and 500"));
+
         var candidates = await db.Places
             .Include(p => p.Photos)
             .Where(p => p.UserId == currentUser.Id && p.Latitude != null && p.Longitude != null)

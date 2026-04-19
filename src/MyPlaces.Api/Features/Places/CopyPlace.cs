@@ -14,6 +14,8 @@ public static class CopyPlace
         ICurrentUser currentUser,
         CancellationToken ct)
     {
+        // Intentional: any authenticated user can copy any place (social feature).
+        // The copy is owned by currentUser — source place data is read-only.
         var source = await db.Places
             .FirstOrDefaultAsync(p => p.Id == id, ct);
 
