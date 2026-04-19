@@ -15,11 +15,14 @@ public static class EndpointExtensions
         v1.MapPost("/auth/google", GoogleLogin.Handle);
         v1.MapPost("/auth/refresh-token", RefreshToken.Handle);
 
-        // Places
+        // Places — /places/nearby must be before /places/{id:guid}
         v1.MapPost("/places", CreatePlace.Handle).RequireAuthorization();
         v1.MapGet("/places", GetPlaces.Handle).RequireAuthorization();
+        v1.MapGet("/places/nearby", GetNearbyPlaces.Handle).RequireAuthorization();
         v1.MapGet("/places/{id:guid}", GetPlace.Handle).RequireAuthorization();
         v1.MapPut("/places/{id:guid}", UpdatePlace.Handle).RequireAuthorization();
+        v1.MapDelete("/places/{id:guid}", DeletePlace.Handle).RequireAuthorization();
+        v1.MapPost("/places/{id:guid}/copy", CopyPlace.Handle).RequireAuthorization();
 
         return app;
     }
