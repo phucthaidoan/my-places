@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MyPlaces.Shared.Auth;
 using MyPlaces.Shared.Common;
 
@@ -8,9 +10,17 @@ namespace MyPlaces.Api.Tests;
 public abstract class AuthenticatedTestBase : IClassFixture<TestWebAppFactory>
 {
     protected readonly HttpClient Client;
+    protected readonly TestWebAppFactory Factory;
+
+    protected static readonly JsonSerializerOptions ApiJson = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+    };
 
     protected AuthenticatedTestBase(TestWebAppFactory factory)
     {
+        Factory = factory;
         Client = factory.CreateClient();
     }
 

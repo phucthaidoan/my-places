@@ -1,0 +1,62 @@
+@page "/trips"
+@using MyPlaces.Client.Serialization
+@inject IHttpClientFactory HttpFactory
+@inject NavigationManager Nav
+
+<PageTitle>Trips</PageTitle>
+
+<h1>My trips</h1>
+<p><a class="btn btn-primary" href="trips/new">New trip</a></p>
+
+@if (_loading)
+{
+    <p>Loading…</p>
+}
+else if (!string.IsNullOrEmpty(_error))
+{
+    <p class="text-danger">@_error</p>
+}
+else if (_trips is null || _trips.Count == 0)
+{
+    <p>No trips yet.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var t in _trips)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="trips/@t.Id">@t.Name</a>
+                <span class="badge bg-secondary">@t.PlaceCount places</span>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private bool _loading = true;
+    private string? _error;
+    private List<TripSummaryResponse>? _trips;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var client = HttpFactory.CreateClient("Api");
+            _trips = await client.GetFromJsonAsync<Result<List<TripSummaryResponse>>>("api/v1/trips", ClientJson.Options)
+                is { } r && r.IsSuccess && r.Value is not null
+                ? r.Value
+                : [];
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+            if (_error.Contains("401"))
+                Nav.NavigateTo("/login");
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

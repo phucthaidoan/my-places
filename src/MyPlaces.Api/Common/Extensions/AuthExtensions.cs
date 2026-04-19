@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -33,6 +34,13 @@ public static class AuthExtensions
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+        // AddIdentity sets DefaultAuthenticateScheme to cookies; API uses Bearer JWT only.
+        services.PostConfigure<AuthenticationOptions>(o =>
+        {
+            o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        });
 
         services.AddAuthorization();
         return services;

@@ -1,0 +1,64 @@
+@page "/register"
+@using MyPlaces.Client.Serialization
+@inject IHttpClientFactory HttpFactory
+@inject AuthState Auth
+@inject NavigationManager Nav
+
+<PageTitle>Register</PageTitle>
+
+<h1>Register</h1>
+
+<EditForm Model="_model" OnValidSubmit="SubmitAsync">
+    <p>
+        <label>Email</label>
+        <InputText @bind-Value="_model.Email" class="form-control" />
+    </p>
+    <p>
+        <label>Username</label>
+        <InputText @bind-Value="_model.Username" class="form-control" />
+    </p>
+    <p>
+        <label>Display name</label>
+        <InputText @bind-Value="_model.DisplayName" class="form-control" />
+    </p>
+    <p>
+        <label>Password</label>
+        <InputText type="password" @bind-Value="_model.Password" class="form-control" />
+    </p>
+    <button type="submit" class="btn btn-primary">Create account</button>
+</EditForm>
+@if (!string.IsNullOrEmpty(_error))
+{
+    <p class="text-danger mt-2">@_error</p>
+}
+
+@code {
+    private readonly RegisterForm _model = new();
+    private string? _error;
+
+    private async Task SubmitAsync()
+    {
+        _error = null;
+        var client = HttpFactory.CreateClient("ApiAnonymous");
+        var response = await client.PostAsJsonAsync("api/v1/auth/register",
+            new RegisterRequest(_model.Email, _model.Username, _model.Password, _model.DisplayName));
+
+        var body = await response.Content.ReadFromJsonAsync<Result<AuthResponse>>(ClientJson.Options);
+        if (!response.IsSuccessStatusCode || body is null || !body.IsSuccess || body.Value is null)
+        {
+            _error = body?.Error ?? "Registration failed.";
+            return;
+        }
+
+        await Auth.SetTokenAsync(body.Value.Token);
+        Nav.NavigateTo("/trips");
+    }
+
+    private sealed class RegisterForm
+    {
+        public string Email { get; set; } = "";
+        public string Username { get; set; } = "";
+        public string DisplayName { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}

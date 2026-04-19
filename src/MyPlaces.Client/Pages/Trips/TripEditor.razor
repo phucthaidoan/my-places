@@ -1,0 +1,155 @@
+@page "/trips/new"
+@page "/trips/{TripId:guid}/edit"
+@using MyPlaces.Client.Serialization
+@inject IHttpClientFactory HttpFactory
+@inject NavigationManager Nav
+
+<PageTitle>@(_isNew ? "New trip" : "Edit trip")</PageTitle>
+
+<h1>@(_isNew ? "New trip" : "Edit trip")</h1>
+
+@if (_loading)
+{
+    <p>Loading…</p>
+}
+else if (!string.IsNullOrEmpty(_error))
+{
+    <p class="text-danger">@_error</p>
+}
+else
+{
+    <EditForm Model="_model" OnValidSubmit="SaveAsync">
+        <p>
+            <label>Name</label>
+            <InputText @bind-Value="_model.Name" class="form-control" />
+        </p>
+        <p>
+            <label>City</label>
+            <InputText @bind-Value="_model.City" class="form-control" />
+        </p>
+        <p>
+            <label>Country</label>
+            <InputText @bind-Value="_model.Country" class="form-control" />
+        </p>
+        <p>
+            <label>Start</label>
+            <InputDate @bind-Value="_model.StartDate" class="form-control" Type="InputDateType.Date" />
+        </p>
+        <p>
+            <label>End</label>
+            <InputDate @bind-Value="_model.EndDate" class="form-control" Type="InputDateType.Date" />
+        </p>
+        <p>
+            <label>Visibility</label>
+            <InputSelect @bind-Value="_model.Visibility" class="form-control">
+                <option value="@TripVisibility.Private">Private</option>
+                <option value="@TripVisibility.PublicLink">Public link</option>
+            </InputSelect>
+        </p>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-link" href="trips">Cancel</a>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public Guid TripId { get; set; }
+
+    private bool _isNew;
+    private bool _loading = true;
+    private string? _error;
+    private TripForm _model = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _isNew = Nav.Uri.Contains("/trips/new", StringComparison.OrdinalIgnoreCase);
+        _loading = true;
+        _error = null;
+
+        try
+        {
+            if (_isNew)
+            {
+                _model = new TripForm();
+            }
+            else
+            {
+                var client = HttpFactory.CreateClient("Api");
+                var r = await client.GetFromJsonAsync<Result<TripDetailResponse>>($"api/v1/trips/{TripId}", ClientJson.Options);
+                if (r is not { IsSuccess: true, Value: not null })
+                {
+                    _error = r?.Error ?? "Trip not found.";
+                    return;
+                }
+
+                var t = r.Value;
+                _model = new TripForm
+                {
+                    Name = t.Name,
+                    City = t.City,
+                    Country = t.Country ?? "",
+                    StartDate = t.StartDate,
+                    EndDate = t.EndDate,
+                    Visibility = t.Visibility
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+            if (_error.Contains("401"))
+                Nav.NavigateTo("/login");
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        _error = null;
+        var client = HttpFactory.CreateClient("Api");
+        if (_isNew)
+        {
+            var req = new CreateTripRequest(
+                _model.Name, _model.City,
+                string.IsNullOrWhiteSpace(_model.Country) ? null : _model.Country,
+                _model.StartDate, _model.EndDate, _model.Visibility);
+            var resp = await client.PostAsJsonAsync("api/v1/trips", req);
+            var body = await resp.Content.ReadFromJsonAsync<Result<TripDetailResponse>>(ClientJson.Options);
+            if (!resp.IsSuccessStatusCode || body is not { IsSuccess: true, Value: not null })
+            {
+                _error = body?.Error ?? "Could not create trip.";
+                return;
+            }
+
+            Nav.NavigateTo($"/trips/{body.Value.Id}");
+        }
+        else
+        {
+            var req = new UpdateTripRequest(
+                _model.Name, _model.City,
+                string.IsNullOrWhiteSpace(_model.Country) ? null : _model.Country,
+                _model.StartDate, _model.EndDate, _model.Visibility);
+            var resp = await client.PutAsJsonAsync($"api/v1/trips/{TripId}", req);
+            var body = await resp.Content.ReadFromJsonAsync<Result<TripDetailResponse>>(ClientJson.Options);
+            if (!resp.IsSuccessStatusCode || body is not { IsSuccess: true, Value: not null })
+            {
+                _error = body?.Error ?? "Could not update trip.";
+                return;
+            }
+
+            Nav.NavigateTo($"/trips/{TripId}");
+        }
+    }
+
+    private sealed class TripForm
+    {
+        public string Name { get; set; } = "";
+        public string City { get; set; } = "";
+        public string Country { get; set; } = "";
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public TripVisibility Visibility { get; set; } = TripVisibility.Private;
+    }
+}

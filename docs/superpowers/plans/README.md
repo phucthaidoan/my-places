@@ -8,10 +8,11 @@
 |---|------|--------|-------|
 | 1 | [2026-04-18-01-solution-setup.md](2026-04-18-01-solution-setup.md) | ✅ Done | Solution, EF Core entities, Auth (JWT + Google), Result Pattern |
 | 2 | [2026-04-18-02-places-api.md](2026-04-18-02-places-api.md) | ✅ Done | Places API + Blazor Client |
-| 3 | _(chưa viết)_ | ⏳ Pending | Trips API + Blazor Client |
-| 4 | _(chưa viết)_ | ⏳ Pending | Photos (SAS upload flow + client-side resize) |
-| 5 | _(chưa viết)_ | ⏳ Pending | Social (Follow, Search Users, Feed) |
-| 6 | _(chưa viết)_ | ⏳ Pending | Dashboard + Azure Deploy |
+| 3 | [2026-04-18-03-trips-api.md](2026-04-18-03-trips-api.md) | ✅ Done | Trips API + Blazor Client |
+| 4 | [2026-04-18-04-e2e-playwright.md](2026-04-18-04-e2e-playwright.md) | ⏳ Pending (ready) | E2E Playwright (repo) + MCP verification |
+| 5 | _(chưa viết)_ | ⏳ Pending | Photos (SAS upload flow + client-side resize) |
+| 6 | _(chưa viết)_ | ⏳ Pending | Social (Follow, Search Users, Feed) |
+| 7 | _(chưa viết)_ | ⏳ Pending | Dashboard + Azure Deploy |
 
 ## Dependency Order
 
@@ -21,10 +22,12 @@ Plan 1 (Foundation)
 Plan 2 (Places) ← depends on Plan 1
 Plan 3 (Trips)  ← depends on Plan 1 + Plan 2
     ↓
-Plan 4 (Photos) ← depends on Plan 2
-Plan 5 (Social) ← depends on Plan 1
+Plan 4 (E2E Playwright) ← depends on Plan 3 (Blazor flows to test)
     ↓
-Plan 6 (Dashboard + Deploy) ← depends on all above
+Plan 5 (Photos) ← depends on Plan 2
+Plan 6 (Social) ← depends on Plan 1
+    ↓
+Plan 7 (Dashboard + Deploy) ← depends on Plans 1–3, 5–6 (E2E optional but recommended before release)
 ```
 
 ---
@@ -75,16 +78,19 @@ Plan 6 (Dashboard + Deploy) ← depends on all above
 - [x] Commit spec docs vào `docs/superpowers/`
 - [x] Push initial commit
 
+**GitHub — tạo MVP issues (Plan 3–7 + Playwright MVP):** [GitHub MCP + PAT](../github/README.md) (Cursor, tool `issue_write`); fallback [scripts/github/README.md](../../../scripts/github/README.md) (`gh` + milestone `MVP`).
+
 ---
 
 ### 2. Implement Plans
 
 - [x] **Plan 1** — Solution Setup & Core Infrastructure → dùng `superpowers:subagent-driven-development`
 - [x] **Plan 2** — Places API + Blazor Client → PR #32
-- [ ] **Plan 3** — Trips API + Blazor Client _(viết plan sau khi Plan 2 done)_
-- [ ] **Plan 4** — Photos (SAS upload + client-side resize) _(viết plan sau khi Plan 2 done)_
-- [ ] **Plan 5** — Social (Follow, Search, Feed) _(viết plan sau khi Plan 1 done)_
-- [ ] **Plan 6** — Dashboard + Azure Deploy _(viết plan sau khi tất cả done)_
+- [x] **Plan 3** — Trips API + Blazor Client → [2026-04-18-03-trips-api.md](2026-04-18-03-trips-api.md)
+- [ ] **Plan 4** — E2E Playwright + MCP verification → [2026-04-18-04-e2e-playwright.md](2026-04-18-04-e2e-playwright.md) _(bước tiếp theo)_
+- [ ] **Plan 5** — Photos (SAS upload + client-side resize) _(chưa viết plan chi tiết)_
+- [ ] **Plan 6** — Social (Follow, Search, Feed) _(chưa viết plan chi tiết)_
+- [ ] **Plan 7** — Dashboard + Azure Deploy _(chưa viết plan chi tiết)_
 
 ---
 
