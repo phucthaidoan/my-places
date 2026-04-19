@@ -16,7 +16,7 @@ public static class EndpointExtensions
         v1.MapPost("/auth/google", GoogleLogin.Handle);
         v1.MapPost("/auth/refresh-token", RefreshToken.Handle);
 
-        // Places — /places/nearby before /places/{id:guid}
+        // Places — /places/nearby must be before /places/{id:guid}
         v1.MapPost("/places", CreatePlace.Handle).RequireAuthorization();
         v1.MapGet("/places", GetPlaces.Handle).RequireAuthorization();
         v1.MapGet("/places/nearby", GetNearbyPlaces.Handle).RequireAuthorization();
