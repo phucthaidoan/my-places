@@ -1,1 +1,0 @@
-**Plan 3 dependency met:** Trips API + Blazor (list / editor / detail / shared view) và auth plumbing đã có trong repo; có thể bắt đầu triển khai Playwright theo `docs/superpowers/plans/2026-04-18-04-e2e-playwright.md`.
