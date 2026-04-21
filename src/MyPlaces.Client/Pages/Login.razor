@@ -11,13 +11,13 @@
 <EditForm Model="_model" OnValidSubmit="SubmitAsync">
     <p>
         <label>Email</label>
-        <InputText @bind-Value="_model.Email" class="form-control" />
+        <InputText @bind-Value="_model.Email" class="form-control" data-testid="login-email" />
     </p>
     <p>
         <label>Password</label>
-        <InputText type="password" @bind-Value="_model.Password" class="form-control" />
+        <InputText type="password" @bind-Value="_model.Password" class="form-control" data-testid="login-password" />
     </p>
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-primary" data-testid="login-submit">Sign in</button>
 </EditForm>
 @if (!string.IsNullOrEmpty(_error))
 {

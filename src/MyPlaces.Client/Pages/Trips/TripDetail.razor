@@ -15,11 +15,11 @@ else if (!string.IsNullOrEmpty(_error))
 }
 else if (_trip is not null)
 {
-    <h1>@_trip.Name</h1>
+    <h1 data-testid="trip-detail-title">@_trip.Name</h1>
     <p>@_trip.City @(_trip.Country is not null ? $", {_trip.Country}" : "")</p>
     <p>
         <a class="btn btn-outline-secondary" href="trips/@TripId/edit">Edit</a>
-        <button type="button" class="btn btn-outline-primary" @onclick="ToggleShareAsync">Share / unshare</button>
+        <button type="button" class="btn btn-outline-primary" data-testid="trip-share-toggle" @onclick="ToggleShareAsync">Share / unshare</button>
     </p>
     @if (_shareInfo is not null)
     {
@@ -28,7 +28,7 @@ else if (_trip is not null)
             @if (!string.IsNullOrEmpty(_shareInfo.SharePath))
             {
                 <div><strong>Path:</strong> @_shareInfo.SharePath</div>
-                <div><strong>Open:</strong> <a href="@($"{Nav.BaseUri.TrimEnd('/')}{_shareInfo.SharePath}")">@($"{Nav.BaseUri.TrimEnd('/')}{_shareInfo.SharePath}")</a></div>
+                <div><strong>Open:</strong> <a data-testid="shared-trip-open-link" href="@($"{Nav.BaseUri.TrimEnd('/')}{_shareInfo.SharePath}")">@($"{Nav.BaseUri.TrimEnd('/')}{_shareInfo.SharePath}")</a></div>
             }
         </div>
     }
@@ -37,14 +37,14 @@ else if (_trip is not null)
     @if (_myPlaces is not null && _myPlaces.Count > 0)
     {
         <div class="input-group mb-3" style="max-width: 28rem;">
-            <select class="form-select" @bind="_selectedPlaceId">
+            <select class="form-select" data-testid="trip-place-select" @bind="_selectedPlaceId">
                 <option value="">— add a place —</option>
                 @foreach (var p in _myPlaces)
                 {
                     <option value="@p.Id">@p.Name (@p.City)</option>
                 }
             </select>
-            <button class="btn btn-outline-primary" type="button" @onclick="AddPlaceAsync" disabled="@string.IsNullOrEmpty(_selectedPlaceId)">Add</button>
+            <button class="btn btn-outline-primary" type="button" data-testid="trip-add-place-button" @onclick="AddPlaceAsync" disabled="@string.IsNullOrEmpty(_selectedPlaceId)">Add</button>
         </div>
     }
 

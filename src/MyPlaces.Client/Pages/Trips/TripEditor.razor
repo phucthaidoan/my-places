@@ -21,32 +21,32 @@ else
     <EditForm Model="_model" OnValidSubmit="SaveAsync">
         <p>
             <label>Name</label>
-            <InputText @bind-Value="_model.Name" class="form-control" />
+            <InputText @bind-Value="_model.Name" class="form-control" data-testid="trip-field-name" />
         </p>
         <p>
             <label>City</label>
-            <InputText @bind-Value="_model.City" class="form-control" />
+            <InputText @bind-Value="_model.City" class="form-control" data-testid="trip-field-city" />
         </p>
         <p>
             <label>Country</label>
-            <InputText @bind-Value="_model.Country" class="form-control" />
+            <InputText @bind-Value="_model.Country" class="form-control" data-testid="trip-field-country" />
         </p>
         <p>
             <label>Start</label>
-            <InputDate @bind-Value="_model.StartDate" class="form-control" Type="InputDateType.Date" />
+            <InputDate @bind-Value="_model.StartDate" class="form-control" Type="InputDateType.Date" data-testid="trip-field-start" />
         </p>
         <p>
             <label>End</label>
-            <InputDate @bind-Value="_model.EndDate" class="form-control" Type="InputDateType.Date" />
+            <InputDate @bind-Value="_model.EndDate" class="form-control" Type="InputDateType.Date" data-testid="trip-field-end" />
         </p>
         <p>
             <label>Visibility</label>
-            <InputSelect @bind-Value="_model.Visibility" class="form-control">
+            <InputSelect @bind-Value="_model.Visibility" class="form-control" data-testid="trip-field-visibility">
                 <option value="@TripVisibility.Private">Private</option>
                 <option value="@TripVisibility.PublicLink">Public link</option>
             </InputSelect>
         </p>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary" data-testid="trip-save">Save</button>
         <a class="btn btn-link" href="trips">Cancel</a>
     </EditForm>
 }
