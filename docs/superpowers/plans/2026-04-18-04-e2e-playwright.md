@@ -52,15 +52,15 @@ my-places/
 
 ## Task 1: Scaffold `e2e/` project
 
-- [ ] `cd e2e && npm init -y` (or pnpm) and add `@playwright/test`.
+- [x] `cd e2e && npm init -y` (or pnpm) and add `@playwright/test`.
 
-- [ ] `npx playwright install` (document Chromium-only for CI to save time).
+- [x] `npx playwright install` (document Chromium-only for CI to save time).
 
-- [ ] Add `playwright.config.ts` with `testDir: './specs'`, reasonable `timeout`, `trace: 'on-first-retry'`.
+- [x] Add `playwright.config.ts` with `testDir: './specs'`, reasonable `timeout`, `trace: 'on-first-retry'`.
 
-- [ ] Add `.gitignore` under `e2e/` for `test-results/`, `playwright-report/`, `blob-report/`.
+- [x] Add `.gitignore` under `e2e/` for `test-results/`, `playwright-report/`, `blob-report/`.
 
-- [ ] Root or `e2e/README.md` one paragraph: how to run (`E2E_BASE_URL=... npm test`), prerequisite “API + Client running”.
+- [x] Root or `e2e/README.md` one paragraph: how to run (`E2E_BASE_URL=... npm test`), prerequisite “API + Client running”.
 
 - [ ] Commit: `chore(e2e): add Playwright scaffold`
 
@@ -68,7 +68,7 @@ my-places/
 
 ## Task 2: Smoke spec
 
-- [ ] `smoke.spec.ts`: `page.goto('/')` (or `/login`) — expect HTTP 200 and visible shell (title, nav, or login form).
+- [x] `smoke.spec.ts`: `page.goto('/')` (or `/login`) — expect HTTP 200 and visible shell (title, nav, or login form).
 
 - [ ] Commit: `test(e2e): smoke spec`
 
@@ -76,9 +76,9 @@ my-places/
 
 ## Task 3: Auth spec
 
-- [ ] Flow: register new user → assert redirect or success UI → login (if separate) → assert authenticated marker (e.g. nav shows Trips).
+- [x] Flow: register new user → assert redirect or success UI → login (if separate) → assert authenticated marker (e.g. nav shows Trips).
 
-- [ ] Use stable `data-testid` on critical buttons/inputs in Blazor (Plan 3 / follow-up) — prefer testids over fragile CSS.
+- [x] Use stable `data-testid` on critical buttons/inputs in Blazor (Plan 3 / follow-up) — prefer testids over fragile CSS.
 
 - [ ] Commit: `test(e2e): auth register and login`
 
@@ -86,11 +86,11 @@ my-places/
 
 ## Task 4: Trips + shared link spec
 
-- [ ] Logged-in: create a place (if UI exists) or use API from `request` fixture with saved token — **prefer UI** if Plan 3 includes place creation; otherwise document “seed via API” using `API.request` in Playwright.
+- [x] Logged-in: create a place (if UI exists) or use API from `request` fixture with saved token — **prefer UI** if Plan 3 includes place creation; otherwise document “seed via API” using `API.request` in Playwright.
 
-- [ ] Create trip, add place to trip, invoke share, read `SharePath` / URL from UI.
+- [x] Create trip, add place to trip, invoke share, read `SharePath` / URL from UI.
 
-- [ ] New browser context **without** storage: open shared URL, assert trip name and at least one place visible.
+- [x] New browser context **without** storage: open shared URL, assert trip name and at least one place visible.
 
 - [ ] Commit: `test(e2e): trip share flow and anonymous shared view`
 
@@ -98,9 +98,9 @@ my-places/
 
 ## Task 5: Playwright MCP (documentation only in repo)
 
-- [ ] In `e2e/README.md` (or this plan §Verification): short list of MCP-driven checks agents should run before claiming Plan 3/4 done (open shared link, screenshot on failure).
+- [x] In `e2e/README.md` (or this plan §Verification): short list of MCP-driven checks agents should run before claiming Plan 3/4 done (open shared link, screenshot on failure).
 
-- [ ] No MCP config in-repo required (lives in Cursor user MCP settings).
+- [x] No MCP config in-repo required (lives in Cursor user MCP settings).
 
 - [ ] Commit: `docs(e2e): document Playwright MCP verification`
 
@@ -108,9 +108,9 @@ my-places/
 
 ## Task 6: CI (optional but recommended)
 
-- [ ] GitHub Action job: services or steps to start Postgres if API self-hosts in CI; **simplest path** for MVP: job `workflow_dispatch` only, or skip CI until deploy story exists.
+- [x] GitHub Action job: services or steps to start Postgres if API self-hosts in CI; **simplest path** for MVP: job `workflow_dispatch` only, or skip CI until deploy story exists. _(Không thêm workflow; PR chạy E2E local — `e2e/README.md`.)_
 
-- [ ] If full CI is deferred, document “local + PR manual” in README.
+- [x] If full CI is deferred, document “local + PR manual” in README.
 
 - [ ] Commit (if implemented): `ci: add optional e2e workflow`
 

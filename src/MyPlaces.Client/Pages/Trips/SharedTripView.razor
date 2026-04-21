@@ -14,7 +14,7 @@ else if (!string.IsNullOrEmpty(_error))
 }
 else if (_trip is not null)
 {
-    <h1>@_trip.Name</h1>
+    <h1 data-testid="shared-trip-heading">@_trip.Name</h1>
     <p>@_trip.City @(_trip.Country is not null ? $", {_trip.Country}" : "")</p>
 
     <h2>Places</h2>
@@ -24,7 +24,7 @@ else if (_trip is not null)
     }
     else
     {
-        <ul class="list-group">
+        <ul class="list-group" data-testid="shared-trip-place-list">
             @foreach (var tp in _trip.Places)
             {
                 <li class="list-group-item">@tp.Place.Name — @tp.Place.City</li>

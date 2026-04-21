@@ -9,7 +9,7 @@
 | 1 | [2026-04-18-01-solution-setup.md](2026-04-18-01-solution-setup.md) | ✅ Done | Solution, EF Core entities, Auth (JWT + Google), Result Pattern |
 | 2 | [2026-04-18-02-places-api.md](2026-04-18-02-places-api.md) | ✅ Done | Places API + Blazor Client |
 | 3 | [2026-04-18-03-trips-api.md](2026-04-18-03-trips-api.md) | ✅ Done | Trips API + Blazor Client |
-| 4 | [2026-04-18-04-e2e-playwright.md](2026-04-18-04-e2e-playwright.md) | ⏳ Pending (ready) | E2E Playwright (repo) + MCP verification |
+| 4 | [2026-04-18-04-e2e-playwright.md](2026-04-18-04-e2e-playwright.md) | ✅ Done | E2E Playwright (repo) + MCP verification |
 | 5 | _(chưa viết)_ | ⏳ Pending | Photos (SAS upload flow + client-side resize) |
 | 6 | _(chưa viết)_ | ⏳ Pending | Social (Follow, Search Users, Feed) |
 | 7 | _(chưa viết)_ | ⏳ Pending | Dashboard + Azure Deploy |
@@ -87,7 +87,7 @@ Plan 7 (Dashboard + Deploy) ← depends on Plans 1–3, 5–6 (E2E optional but 
 - [x] **Plan 1** — Solution Setup & Core Infrastructure → dùng `superpowers:subagent-driven-development`
 - [x] **Plan 2** — Places API + Blazor Client → PR #32
 - [x] **Plan 3** — Trips API + Blazor Client → [2026-04-18-03-trips-api.md](2026-04-18-03-trips-api.md)
-- [ ] **Plan 4** — E2E Playwright + MCP verification → [2026-04-18-04-e2e-playwright.md](2026-04-18-04-e2e-playwright.md) _(bước tiếp theo)_
+- [x] **Plan 4** — E2E Playwright + MCP verification → [2026-04-18-04-e2e-playwright.md](2026-04-18-04-e2e-playwright.md) → thư mục [e2e/](../../../e2e/)
 - [ ] **Plan 5** — Photos (SAS upload + client-side resize) _(chưa viết plan chi tiết)_
 - [ ] **Plan 6** — Social (Follow, Search, Feed) _(chưa viết plan chi tiết)_
 - [ ] **Plan 7** — Dashboard + Azure Deploy _(chưa viết plan chi tiết)_
